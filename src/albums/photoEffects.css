@@ -1,0 +1,45 @@
+/* Shared photographic frame + effect styling used by BOTH the admin's live
+   double-exposure editor and the public album story, so previews always match. */
+
+.story-photo{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#e8e1d1;overflow:hidden;cursor:pointer;display:block}
+.story-photo>*, .story-photo-missing{position:absolute;inset:0}
+.story-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-base{position:absolute;inset:0;overflow:hidden}
+.ph-base img{filter:var(--ph-filter,none)}
+.story-photo-missing{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#a08a66;font-size:11px}
+.story-photo-missing>span{font-size:22px;color:#c0a877}
+
+/* ---- Effect treatments (pure CSS layers: never destructive) ---- */
+.effect-black-and-white .ph-base img{--ph-filter:grayscale(1) contrast(1.04)}
+.effect-cinematic .ph-base img{--ph-filter:saturate(.88) contrast(1.06) brightness(.995)}
+.effect-sepia-memory .ph-base img{--ph-filter:sepia(.55) contrast(.95) brightness(1.03)}
+.effect-vintage-film .ph-base img{--ph-filter:sepia(.42) saturate(.85) contrast(1.05)}
+.effect-polaroid .ph-base img{--ph-filter:saturate(.95) contrast(1.02)}
+.effect-soft-bloom .ph-base img{--ph-filter:saturate(1.06) contrast(1.02)}
+.effect-gold-glow .ph-base img{--ph-filter:saturate(1.04) brightness(1.01)}
+
+.ph-vignette{pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 54%,#2410175c 100%);mix-blend-mode:multiply}
+.ph-glow{pointer-events:none;background:linear-gradient(148deg,transparent 32%,#f3d69a6e 62%,#a3814936 100%);mix-blend-mode:screen}
+.ph-bloom{pointer-events:none;background:radial-gradient(ellipse at 50% 36%,#ffe9bf8c,transparent 58%);mix-blend-mode:screen;filter:blur(5px)}
+
+.ph-grain{pointer-events:none;background-repeat:repeat;background-size:150px 150px;opacity:.16;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");animation:grain-shift 1.1s steps(4) infinite}
+@keyframes grain-shift{0%{transform:translate(0,0)}25%{transform:translate(-6px,4px)}50%{transform:translate(4px,-6px)}75%{transform:translate(-4px,6px)}100%{transform:translate(6px,2px)}}
+@media(prefers-reduced-motion:reduce){.ph-grain{animation:none}.effect-parallax-depth .ph-base img{transform:none}}
+
+/* ---- Double exposure / structured editor ---- */
+.effect-double-exposure .ph-dex-wrap{position:absolute;inset:0;overflow:hidden;transform:translate(var(--dex-x),var(--dex-y))}
+.effect-double-exposure .ph-dex-img{position:absolute;left:-17%;top:-17%;width:134%;height:134%;max-width:none;object-fit:cover}
+.effect-double-exposure .ph-dex-grade{pointer-events:none;mix-blend-mode:soft-light;background:linear-gradient(var(--dex-grade),#591f3070 0%,transparent 55%)}
+
+/* ---- Polaroid keeps a little white border and shadow ---- */
+.effect-polaroid{background:#fdfaf1;padding:8px}
+.effect-polaroid .ph-base{inset:8px 8px 34px}
+.effect-polaroid .ph-base img{box-shadow:2px 3px 12px #3c2f2330}
+
+/* ---- Parallax depth is driven from the story (GSAP); photo pre-scales so the
+        translate has room inside the clipped frame ---- */
+.effect-parallax-depth .ph-base img{transform:scale(1.16);will-change:transform}
+
+/* ---- Backdrops (hero / chapter headers) ---- */
+.ph-backdrop-img{width:100%;height:100%;object-fit:cover}
+.ph-backdrop-dex{position:absolute;inset:0;width:115%;height:115%;left:-7.5%;top:-7.5%;object-fit:cover;transform:translate(var(--dex-x),var(--dex-y))}

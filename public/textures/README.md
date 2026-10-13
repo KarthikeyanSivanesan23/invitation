@@ -1,0 +1,1 @@
+No external textures are required. Invitation paper and foil are generated at runtime at 768 × 1024. The detailed temple generates shared stone/granite bump maps and bark, grass, silk, water-normal and foliage textures at 256–512 px. Add only optimized WebP/AVIF/JPEG textures here if extending the scenes. No texture files in this folder are fetched automatically.
